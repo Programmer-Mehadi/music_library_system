@@ -7,6 +7,10 @@ const userCreateBodySchema = Joi.object({
   role: Joi.string().valid('user').required(),
 })
 
-const UserValidation = { userCreateBodySchema }
+const userGetSingleParamsSchema = Joi.object({
+  id: Joi.string().required().min(1),
+})
+
+const UserValidation = { userCreateBodySchema, userGetSingleParamsSchema }
 
 export default UserValidation

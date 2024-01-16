@@ -7,6 +7,7 @@ import DuplicateError from '@src/errors/DuplicateError'
 import CustomError from '@src/errors/CustomError'
 import passwordBcrypt from '@src/helpers/passwordBcrypt'
 
+// create user
 const createUser = catchAsync(async (req, res, next) => {
   const data = req.body
   if (data.password.includes(' ')) {
@@ -55,6 +56,7 @@ const createUser = catchAsync(async (req, res, next) => {
   }
 })
 
+// get all users
 const getAllUsers = catchAsync(async (req, res, next) => {
   const result = await UserService.getAllUsersFromDB()
   sendResponse({
@@ -68,6 +70,7 @@ const getAllUsers = catchAsync(async (req, res, next) => {
   })
 })
 
+// single user
 const getSingleUser = catchAsync(async (req, res, next) => {
   const result = await UserService.getSingleUserFromDB(req.params.id)
   sendResponse({
@@ -80,6 +83,21 @@ const getSingleUser = catchAsync(async (req, res, next) => {
     code: 200,
   })
 })
-const UserController = { createUser, getAllUsers, getSingleUser }
+
+// delete user
+const deleteUser = catchAsync(async (req, res, next) => {
+  const result = await UserService.deleteUserFromDB(req.params.id)
+  sendResponse({
+    res,
+    success: result.success,
+    message: result.message,
+    data: {
+      data: result.data || null,
+    },
+    code: 200,
+  })
+})
+
+const UserController = { createUser, getAllUsers, getSingleUser, deleteUser }
 
 export default UserController

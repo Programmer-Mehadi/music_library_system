@@ -5,15 +5,33 @@ import express from 'express'
 
 const routes = express.Router()
 
+// create user
 routes.post(
   '/',
   validateRequest(UserValidation.userCreateBodySchema, { type: 'body' }),
   UserController.createUser,
 )
 
-routes.get('/:id', UserController.getSingleUser)
+// single user
+routes.get(
+  '/:id',
+  validateRequest(UserValidation.userGetSingleParamsSchema, {
+    type: 'params',
+  }),
+  UserController.getSingleUser,
+)
 
+// get all users
 routes.get('/', UserController.getAllUsers)
+
+// delete user
+routes.delete(
+  '/:id',
+  validateRequest(UserValidation.userGetSingleParamsSchema, {
+    type: 'params',
+  }),
+  UserController.deleteUser,
+)
 
 const UserRoutes = routes
 

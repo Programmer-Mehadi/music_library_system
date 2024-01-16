@@ -62,6 +62,26 @@ const getSingleUserFromDB = async (id: string) => {
   }
 }
 
-const UserService = { createUserToDB, getAllUsersFromDB, getSingleUserFromDB }
+// delete user
+
+const deleteUserFromDB = async (id: string) => {
+  const result: any = await query({
+    sql: `DELETE FROM users WHERE id = ${id}`,
+  })
+  return {
+    success: true,
+    message: result.affectedRows
+      ? 'User deleted successfully'
+      : 'User not found',
+    data: result,
+  }
+}
+
+const UserService = {
+  createUserToDB,
+  getAllUsersFromDB,
+  getSingleUserFromDB,
+  deleteUserFromDB,
+}
 
 export default UserService
