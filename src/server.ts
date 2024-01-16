@@ -1,15 +1,16 @@
-import app from '@src/app'
+import conn from '@src/conn'
 import { Request, Response } from 'express'
+import index from '@src/config/index'
 
-const port = 5500
+const port = index.port
 
-app.get('/', (req: Request, res: Response) => {
+conn.get('/', (req: Request, res: Response) => {
   res.send({
     success: true,
     message: `🎵 Music Library System Backend Server Running Successfully 💖`,
   })
 })
 
-app.listen(port, () => {
+conn.listen(port, () => {
   console.log(`Music Library System Backend running on port ${port} 🌹`)
 })
