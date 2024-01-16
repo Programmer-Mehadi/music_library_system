@@ -4,9 +4,17 @@ import catchAsync from '@src/shared/catchAsync'
 import sendResponse from '@src/shared/sendResponse'
 import DuplicateError from '@src/errors/DuplicateError'
 import CustomError from '@src/errors/CustomError'
+import passwordBcrypt from '@src/helpers/passwordBcrypt'
 
 const createUser = catchAsync(async (req, res, next) => {
   const data = req.body
+  if (data.password.includes(' ')) {
+    next(new CustomError('Password cannot contain spaces', 400, null))
+  }
+  const hashPassword = await passwordBcrypt.passwordHash(data.password)
+  if (hashPassword === data.password) {
+    next(new CustomError('Password is not hashed', 400, null))
+  }
   let result: {
     success: boolean
     message: string
