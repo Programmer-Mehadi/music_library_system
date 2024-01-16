@@ -1,13 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import UserService from '@src/app/modules/user/user.service'
 import catchAsync from '@src/shared/catchAsync'
 import CustomError from '@src/errors/CustomError'
+import sendResponse from '@src/shared/sendResponse'
 
 const createUser = catchAsync(async (req, res, next) => {
   const data = req.body
   let result: {
     success: boolean
     message: string
-    data: object | null
+    data: {
+      data: object
+    } | null
   } = {
     success: false,
     message: '',
@@ -16,10 +20,14 @@ const createUser = catchAsync(async (req, res, next) => {
   try {
     result = await UserService.createUserToDB(data)
     if (result?.success) {
-      res.status(200).json({
-        success: true,
-        data: result.data,
-        message: 'User created successfully',
+      sendResponse({
+        res,
+        success: result.success,
+        message: result.message,
+        data: {
+          data: result.data || {},
+        },
+        code: 200,
       })
     } else {
       next(new CustomError(result.message, 400, null))

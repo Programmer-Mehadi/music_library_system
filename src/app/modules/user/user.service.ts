@@ -10,7 +10,9 @@ const createUserToDB = async (data: IUSER) => {
   return new Promise<{
     success: boolean
     message: string
-    data: object | null
+    data: {
+      data: object
+    } | null
   }>((resolve, reject) => {
     db.query(sqlQuery, (err: any, result: any) => {
       if (err) {
