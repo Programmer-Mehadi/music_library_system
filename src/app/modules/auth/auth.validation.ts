@@ -1,8 +1,8 @@
 import Joi from 'joi'
 
 const loginBodySchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
+  email: Joi.string().email().required().min(6).max(150),
+  password: Joi.string().required().min(6).max(150),
 })
 
 const AuthValidation = {

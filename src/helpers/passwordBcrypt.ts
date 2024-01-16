@@ -2,12 +2,7 @@ import bcrypt from 'bcrypt'
 
 const passwordHash = (password: string) => {
   const saltRounds = 10
-  bcrypt.hash(password, saltRounds, function (err, hash) {
-    if (err) {
-      return password
-    }
-    return hash
-  })
+  return bcrypt.hashSync(password, saltRounds)
 }
 
 const passwordCompare = (password: string, hash: string): boolean => {

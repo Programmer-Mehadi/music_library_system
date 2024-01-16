@@ -14,9 +14,11 @@ const createUser = catchAsync(async (req, res, next) => {
     next(new CustomError('Password cannot contain spaces', 400, null))
   }
   const hashPassword = await passwordBcrypt.passwordHash(data.password)
+
   if (hashPassword === data.password) {
     next(new CustomError('Password is not hashed', 400, null))
   }
+  data.password = hashPassword
   let result: {
     success: boolean
     message: string

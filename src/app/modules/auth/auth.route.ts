@@ -12,6 +12,8 @@ routes.post(
   AuthController.login,
 )
 
+routes.get('/verify', AuthController.verify)
+
 const AuthRoutes = routes
 
 export default AuthRoutes
