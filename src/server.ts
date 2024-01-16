@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 const port = 5500
 
 app.get('/', (req: Request, res: Response) => {
+  const name = 'mehadi'
   res.send({
     success: true,
     message: `🎵 Music Library System Backend Server Running Successfully 💖`,
