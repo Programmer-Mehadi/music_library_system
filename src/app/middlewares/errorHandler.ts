@@ -26,6 +26,7 @@ const errorHandler = (
   //  validation error handling
   if (err?.name === 'ValidationError') {
     const { errors, message } = handleValidationError(err)
+
     return res.status(400).json({ success: false, errors, message })
   }
 

@@ -7,7 +7,10 @@ const handleValidationError = (
 } => {
   const errors = [
     {
-      path: '',
+      path:
+        error?.message?.split(`"`)?.length > 1
+          ? error?.message?.split(`"`)[1]
+          : '',
       message: error.message,
     },
   ]
