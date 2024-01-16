@@ -2,7 +2,7 @@ import { Response } from 'express'
 
 interface IData {
   meta?: object
-  data?: object
+  data?: object | null
 }
 
 interface ISendResponse {

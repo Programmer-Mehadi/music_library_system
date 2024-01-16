@@ -11,6 +11,10 @@ routes.post(
   UserController.createUser,
 )
 
+routes.get('/:id', UserController.getSingleUser)
+
+routes.get('/', UserController.getAllUsers)
+
 const UserRoutes = routes
 
 export default UserRoutes

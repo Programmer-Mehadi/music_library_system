@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import UserService from '@src/app/modules/user/user.service'
 import catchAsync from '@src/shared/catchAsync'
@@ -54,6 +55,31 @@ const createUser = catchAsync(async (req, res, next) => {
   }
 })
 
-const UserController = { createUser }
+const getAllUsers = catchAsync(async (req, res, next) => {
+  const result = await UserService.getAllUsersFromDB()
+  sendResponse({
+    res,
+    success: result.success,
+    message: result.message,
+    data: {
+      data: result.data || [],
+    },
+    code: 200,
+  })
+})
+
+const getSingleUser = catchAsync(async (req, res, next) => {
+  const result = await UserService.getSingleUserFromDB(req.params.id)
+  sendResponse({
+    res,
+    success: result.success,
+    message: result.message,
+    data: {
+      data: result.data || null,
+    },
+    code: 200,
+  })
+})
+const UserController = { createUser, getAllUsers, getSingleUser }
 
 export default UserController
