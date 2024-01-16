@@ -6,6 +6,7 @@ import { Error } from 'mongoose'
 
 import CustomError from '@src/errors/CustomError'
 import handleValidationError from '@src/errors/handleValidationError'
+import DuplicateError from '@src/errors/DuplicateError'
 
 const errorHandler = (
   err: Error | CustomError | any,
@@ -20,24 +21,43 @@ const errorHandler = (
       success: false,
       error: err.message,
       data: err.data,
+      errorType: err.errorType || 'customError',
+    })
+  }
+  if (err instanceof DuplicateError) {
+    return res.status(err.statusCode).json({
+      success: false,
+      error: err.message,
+      data: err.data,
+      errorType: err.errorType || 'duplicateError',
     })
   }
 
   //  validation error handling
   if (err?.name === 'ValidationError') {
     const { errors, message } = handleValidationError(err)
-
-    return res.status(400).json({ success: false, errors, message })
+    return res
+      .status(400)
+      .json({ success: false, errors, message, errorType: 'validationError' })
   }
 
-  //  cast error handling
-  if (err?.name === 'CastError') {
+  // MySQL duplicate entry error handle
+  if (err?.code === 'ER_DUP_ENTRY') {
+    // Assuming you have a specific MySQL error code for duplicate entry
     return res.status(400).json({
       success: false,
-      error: 'Invalid ID format',
+      error: `Duplicate entry for key "${err.index}"`,
+      data: err.values,
     })
   }
-
+  // General MySQL error handle
+  if (err instanceof Error && err.message.includes('ER_')) {
+    return res.status(500).json({
+      success: false,
+      message: `MySQL Error: ${err.message}`,
+      error: err.message,
+    })
+  }
   // duplicate error handle
   if (err?.code === 11000 || err?.codeName === 'DuplicateKey') {
     return res.status(400).json({

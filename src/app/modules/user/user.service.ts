@@ -13,13 +13,15 @@ const createUserToDB = async (data: IUSER) => {
     data: {
       data: object
     } | null
+    code?: string
   }>((resolve, reject) => {
     db.query(sqlQuery, (err: any, result: any) => {
       if (err) {
         resolve({
           success: false,
           message: err.message,
-          data: null,
+          data: err,
+          code: err.code,
         })
       } else {
         resolve({

@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-interface ICustomError {
+interface IDuplicateError {
   name: string
   message: string
   statusCode: number
   data: any
-  isCustomError: boolean
+  isDuplicateError: boolean
   errorType?: string
 }
 
-class CustomError extends Error implements ICustomError {
+class DuplicateError extends Error implements IDuplicateError {
   statusCode: number
-  isCustomError: boolean
+  isDuplicateError: boolean
   data: any
   errorType?: string
   constructor(
@@ -20,12 +20,12 @@ class CustomError extends Error implements ICustomError {
     errorType?: string,
   ) {
     super(message)
-    this.name = 'CustomError'
+    this.name = 'DuplicateError'
     this.statusCode = statusCode
     this.data = data
-    this.isCustomError = true
-    this.errorType = errorType || 'customError'
+    this.isDuplicateError = true
+    this.errorType = errorType || 'duplicateError'
   }
 }
 
-export default CustomError
+export default DuplicateError
