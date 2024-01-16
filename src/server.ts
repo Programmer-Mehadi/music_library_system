@@ -1,16 +1,18 @@
 import conn from '@src/conn'
-import { Request, Response } from 'express'
+
 import index from '@src/config/index'
 
-const port = index.port
+const port: number | string = index.port || 5500
 
-conn.get('/', (req: Request, res: Response) => {
-  res.send({
-    success: true,
-    message: `🎵 Music Library System Backend Server Running Successfully 💖`,
-  })
-})
+async function main() {
+  try {
+    conn.listen(port, () => {
+      console.log(`Music Library System Backend running on port ${port} 🌹`)
+    })
+  } catch (err) {
+    console.log('Server Error: 💀', err)
+    console.log(err)
+  }
+}
 
-conn.listen(port, () => {
-  console.log(`Music Library System Backend running on port ${port} 🌹`)
-})
+main().catch(err => console.log(err))
