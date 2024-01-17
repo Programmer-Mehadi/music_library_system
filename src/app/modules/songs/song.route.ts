@@ -12,6 +12,9 @@ router.post(
   SongController.createSong,
 )
 
+// get all song
+router.get('/', SongController.getAllSong)
+
 const SongRoutes = router
 
 export default SongRoutes
