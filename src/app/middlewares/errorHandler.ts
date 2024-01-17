@@ -15,6 +15,15 @@ const errorHandler = (
   // eslint-disable-next-line no-unused-vars
   next: NextFunction,
 ) => {
+  //  reference error
+  if (err?.code == 'ER_NO_REFERENCED_ROW_2') {
+    return res.status(404).json({
+      success: false,
+      message: `${err?.message?.split('REFERENCES')[1]?.split('`')[1]} not found`,
+      data: null,
+      errorType: 'ReferenceError',
+    })
+  }
   // custom error handling
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json({
