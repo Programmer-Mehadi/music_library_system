@@ -15,6 +15,15 @@ router.post(
 // get all album
 router.get('/', AlbumController.getAllAlbums)
 
+// assign album to the artist
+router.post(
+  '/assign-artist',
+  validateRequest(AlbumValidation.artistsAssignAlbumBodySchema, {
+    type: 'body',
+  }),
+  AlbumController.assignArtistToAlbum,
+)
+
 const AlbumRoutes = router
 
 export default AlbumRoutes
