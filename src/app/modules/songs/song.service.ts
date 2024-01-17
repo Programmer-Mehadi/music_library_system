@@ -43,12 +43,35 @@ const updateSongFromDB = (id: number, data: any) => {
 }
 
 // get single song
-
-const getSingleSongFromDB = (id: number) => {
-  const result = query({
+const getSingleSongFromDB = async (id: number) => {
+  const result: any = await query({
     sql: `SELECT * FROM songs WHERE id = ${id}`,
   })
-  return result
+  if (result.length === 0) {
+    return result
+  } else {
+    const data = result[0]
+
+    const album: any = await query({
+      sql: `SELECT * FROM albums WHERE id = ${data.album_id}`,
+    })
+
+    const albumArtists: any = await query({
+      sql: `SELECT artists.id, artists.name FROM albums_artists JOIN artists ON artists.id = albums_artists.artist_id WHERE album_id = ${data.album_id}`,
+    })
+
+    // return res
+    return [
+      {
+        ...data,
+        album: {
+          ...album[0],
+          artists: albumArtists,
+        },
+      },
+    ]
+  }
+  // return albumArtists
 }
 
 const SongService = {

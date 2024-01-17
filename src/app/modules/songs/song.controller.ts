@@ -94,7 +94,8 @@ const getSingleSong = catchAsync(async (req, res, next) => {
     sendResponse({
       res,
       success: result ? true : false,
-      message: result ? 'Get single song successfully' : 'No song found',
+      message:
+        result.length > 0 ? 'Get single song successfully' : 'No song found',
       data: {
         data: result.length > 0 ? result[0] : null,
       },
