@@ -39,6 +39,12 @@ router.get(
   SongController.getSingleSong,
 )
 
+// get songs by album
+router.get('/by-album/:albumId', SongController.getSongsByAlbum)
+
+// get songs by artists
+router.get('/by-artists/:artistId', SongController.getSongsByArtists)
+
 const SongRoutes = router
 
 export default SongRoutes

@@ -71,7 +71,22 @@ const getSingleSongFromDB = async (id: number) => {
       },
     ]
   }
-  // return albumArtists
+}
+
+// get song by album
+const getSongsByAlbumFromDB = async (albumId: number) => {
+  const result: any = await query({
+    sql: `SELECT * FROM songs WHERE album_id = ${albumId}`,
+  })
+  return result
+}
+
+// get song by artists
+const getSongsByArtistsFromDB = async (artistId: number) => {
+  const result: any = await query({
+    sql: `SELECT * FROM songs WHERE album_id IN (SELECT album_id FROM albums_artists WHERE artist_id = ${artistId})`,
+  })
+  return result
 }
 
 const SongService = {
@@ -80,6 +95,8 @@ const SongService = {
   deleteSongFromDB,
   updateSongFromDB,
   getSingleSongFromDB,
+  getSongsByAlbumFromDB,
+  getSongsByArtistsFromDB,
 }
 
 export default SongService

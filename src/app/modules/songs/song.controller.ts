@@ -105,12 +105,56 @@ const getSingleSong = catchAsync(async (req, res, next) => {
     next(error)
   }
 })
+
+// get songs by album
+const getSongsByAlbum = catchAsync(async (req, res, next) => {
+  try {
+    const { albumId }: any = req.params
+    const result: any = await SongService.getSongsByAlbumFromDB(albumId)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message:
+        result.length > 0 ? 'Get songs by album successfully' : 'No song found',
+      data: {
+        data: result.length > 0 ? result : null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+// get songs by artists
+const getSongsByArtists = catchAsync(async (req, res, next) => {
+  try {
+    const { artistId }: any = req.params
+    const result: any = await SongService.getSongsByArtistsFromDB(artistId)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message:
+        result.length > 0
+          ? 'Get songs by artists successfully'
+          : 'No song found',
+      data: {
+        data: result.length > 0 ? result : null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
 const SongController = {
   createSong,
   getAllSong,
   deleteSong,
   updateSong,
   getSingleSong,
+  getSongsByAlbum,
+  getSongsByArtists,
 }
 
 export default SongController
