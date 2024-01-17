@@ -40,6 +40,29 @@ const getAllSong = catchAsync(async (req, res, next) => {
   }
 })
 
-const SongController = { createSong, getAllSong }
+// delete song
+
+const deleteSong = catchAsync(async (req, res, next) => {
+  try {
+    const { id }: any = req.params
+    const result: any = await SongService.deleteSongFromDB(id)
+    sendResponse({
+      res,
+      success: result.affectedRows > 0 ? true : false,
+      message:
+        result.affectedRows > 0
+          ? 'Song deleted successfully'
+          : 'Song not found or cannot be deleted',
+      data: {
+        data: result.affectedRows > 0 ? result : result || null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+const SongController = { createSong, getAllSong, deleteSong }
 
 export default SongController

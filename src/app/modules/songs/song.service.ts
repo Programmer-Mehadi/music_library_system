@@ -16,9 +16,18 @@ const getAllSongFromDB = () => {
   })
   return result
 }
+
+// delete song
+const deleteSongFromDB = (id: number) => {
+  const result = query({
+    sql: `DELETE FROM songs WHERE id = ${id}`,
+  })
+  return result
+}
 const SongService = {
   createSongToDB,
   getAllSongFromDB,
+  deleteSongFromDB,
 }
 
 export default SongService
