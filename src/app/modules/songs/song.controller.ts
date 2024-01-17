@@ -63,6 +63,53 @@ const deleteSong = catchAsync(async (req, res, next) => {
   }
 })
 
-const SongController = { createSong, getAllSong, deleteSong }
+// update song
+const updateSong = catchAsync(async (req, res, next) => {
+  try {
+    const { id }: any = req.params
+    const data: any = req.body
+    const result: any = await SongService.updateSongFromDB(id, data)
+    sendResponse({
+      res,
+      success: result?.affectedRows > 0 ? true : false,
+      message:
+        result?.affectedRows > 0
+          ? 'Song updated successfully'
+          : 'Song not found or cannot be updated',
+      data: {
+        data: result?.affectedRows > 0 ? result : result || null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+// get single song
+const getSingleSong = catchAsync(async (req, res, next) => {
+  try {
+    const { id }: any = req.params
+    const result: any = await SongService.getSingleSongFromDB(id)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message: result ? 'Get single song successfully' : 'No song found',
+      data: {
+        data: result.length > 0 ? result[0] : null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+const SongController = {
+  createSong,
+  getAllSong,
+  deleteSong,
+  updateSong,
+  getSingleSong,
+}
 
 export default SongController

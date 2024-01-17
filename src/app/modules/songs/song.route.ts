@@ -22,6 +22,23 @@ router.delete(
   SongController.deleteSong,
 )
 
+// update song
+router.put(
+  '/:id',
+  validateRequest(SongValidation.updateSongParamsSchema, { type: 'params' }),
+  validateRequest(SongValidation.updateSongBodySchema, { type: 'body' }),
+  SongController.updateSong,
+)
+
+// get single song
+router.get(
+  '/:id',
+  validateRequest(SongValidation.getSingleSongParamsSchema, {
+    type: 'params',
+  }),
+  SongController.getSingleSong,
+)
+
 const SongRoutes = router
 
 export default SongRoutes

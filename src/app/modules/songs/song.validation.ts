@@ -10,6 +10,25 @@ const deleteSongParamsSchema = Joi.object({
   id: Joi.number().required().min(1),
 })
 
-const SongValidation = { createSongBodySchema, deleteSongParamsSchema }
+const updateSongParamsSchema = Joi.object({
+  id: Joi.number().required().min(1),
+})
+const updateSongBodySchema = Joi.object({
+  title: Joi.string().min(3).max(250),
+  duration: Joi.number(),
+  album_id: Joi.number().min(1),
+})
+
+const getSingleSongParamsSchema = Joi.object({
+  id: Joi.number().required().min(1),
+})
+
+const SongValidation = {
+  createSongBodySchema,
+  deleteSongParamsSchema,
+  updateSongParamsSchema,
+  getSingleSongParamsSchema,
+  updateSongBodySchema,
+}
 
 export default SongValidation
