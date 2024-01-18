@@ -45,10 +45,22 @@ router.get(
 )
 
 // get songs by album
-router.get('/by-album/:albumId', SongController.getSongsByAlbum)
+router.get(
+  '/by-album/:albumId',
+  validateRequest(SongValidation.getAllSongsByAlbumParamsSchema, {
+    type: 'params',
+  }),
+  SongController.getSongsByAlbum,
+)
 
 // get songs by artists
-router.get('/by-artists/:artistId', SongController.getSongsByArtists)
+router.get(
+  '/by-artists/:artistId',
+  validateRequest(SongValidation.getAllSongsByArtistsParamsSchema, {
+    type: 'params',
+  }),
+  SongController.getSongsByArtists,
+)
 
 const SongRoutes = router
 

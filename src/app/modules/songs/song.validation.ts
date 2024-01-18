@@ -23,12 +23,21 @@ const getSingleSongParamsSchema = Joi.object({
   id: Joi.number().required().min(1),
 })
 
+const getAllSongsByAlbumParamsSchema = Joi.object({
+  albumId: Joi.number().required().min(1),
+})
+const getAllSongsByArtistsParamsSchema = Joi.object({
+  albumId: Joi.number().required().min(1),
+})
+
 const SongValidation = {
   createSongBodySchema,
   deleteSongParamsSchema,
   updateSongParamsSchema,
   getSingleSongParamsSchema,
   updateSongBodySchema,
+  getAllSongsByAlbumParamsSchema,
+  getAllSongsByArtistsParamsSchema,
 }
 
 export default SongValidation
