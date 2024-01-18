@@ -1,6 +1,8 @@
+import auth from '@src/app/middlewares/auth'
 import validateRequest from '@src/app/middlewares/validateRequets'
 import SongController from '@src/app/modules/songs/song.controller'
 import SongValidation from '@src/app/modules/songs/song.validation'
+import { ENUM_USER_ROLE } from '@src/enums/role'
 import express from 'express'
 
 const router = express.Router()
@@ -8,6 +10,7 @@ const router = express.Router()
 // create song
 router.post(
   '/',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   validateRequest(SongValidation.createSongBodySchema, { type: 'body' }),
   SongController.createSong,
 )
@@ -18,6 +21,7 @@ router.get('/', SongController.getAllSong)
 // delete song
 router.delete(
   '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   validateRequest(SongValidation.deleteSongParamsSchema, { type: 'params' }),
   SongController.deleteSong,
 )
@@ -25,6 +29,7 @@ router.delete(
 // update song
 router.put(
   '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   validateRequest(SongValidation.updateSongParamsSchema, { type: 'params' }),
   validateRequest(SongValidation.updateSongBodySchema, { type: 'body' }),
   SongController.updateSong,
