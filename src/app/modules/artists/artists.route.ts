@@ -15,6 +15,15 @@ router.post(
 // get all artists
 router.get('/', ArtistsController.getAllArtists)
 
+// get single artist
+router.get(
+  '/:id',
+  validateRequest(ArtistsValidation.ArtistsGetSingleParamsSchema, {
+    type: 'params',
+  }),
+  ArtistsController.getSingleArtist,
+)
+
 const ArtistsRoutes = router
 
 export default ArtistsRoutes

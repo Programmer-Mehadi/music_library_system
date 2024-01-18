@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import ArtistsService from '@src/app/modules/artists/artists.service'
 import catchAsync from '@src/shared/catchAsync'
@@ -35,6 +36,26 @@ const getAllArtists = catchAsync(async (req, res, next) => {
   })
 })
 
-const ArtistsController = { createArtists, getAllArtists }
+// get single artist
+const getSingleArtist = catchAsync(async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const result: any = await ArtistsService.getSingleArtistFromDB(id)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message:
+        result.length > 0 ? 'Artist found successfully' : 'Artist not found',
+      data: {
+        data: result.length > 0 ? result[0] : [],
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+const ArtistsController = { createArtists, getAllArtists, getSingleArtist }
 
 export default ArtistsController
