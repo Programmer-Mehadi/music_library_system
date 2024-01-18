@@ -24,7 +24,8 @@ const createArtists = catchAsync(async (req, res, next) => {
 
 // get all artists
 const getAllArtists = catchAsync(async (req, res, next) => {
-  const result = await ArtistsService.getAllArtistsFromDB()
+  const query: any = req.query
+  const result = await ArtistsService.getAllArtistsFromDB(query)
   sendResponse({
     res,
     success: result ? true : false,

@@ -16,7 +16,13 @@ router.post(
 )
 
 // get all artists
-router.get('/', ArtistsController.getAllArtists)
+router.get(
+  '/',
+  validateRequest(ArtistsValidation.ArtistsSearchQuerySchema, {
+    type: 'query',
+  }),
+  ArtistsController.getAllArtists,
+)
 
 // get single artist
 router.get(

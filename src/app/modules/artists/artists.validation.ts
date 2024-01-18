@@ -16,12 +16,16 @@ const ArtistsDeleteParamsSchema = Joi.object({
 const ArtistsUpdateParamsSchema = Joi.object({
   id: Joi.string().required().min(1),
 })
+const ArtistsSearchQuerySchema = Joi.object({
+  name: Joi.string(),
+})
 const ArtistsValidation = {
   ArtistsCreateBodySchema,
   ArtistsGetSingleParamsSchema,
   ArtistsDeleteParamsSchema,
   ArtistsUpdateParamsSchema,
   ArtistsUpdateBodySchema,
+  ArtistsSearchQuerySchema,
 }
 
 export default ArtistsValidation

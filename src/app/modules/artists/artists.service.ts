@@ -11,9 +11,10 @@ const createArtistsToDB = (data: IARTIST) => {
 }
 
 // get all artists
-const getAllArtistsFromDB = async () => {
+const getAllArtistsFromDB = async (queryData: any) => {
+  const { name = '' } = queryData
   const result = await query({
-    sql: `SELECT * FROM artists`,
+    sql: `SELECT * FROM artists ${name !== '' ? `WHERE name LIKE '%${name}%'` : ''}`,
   })
   return result
 }
