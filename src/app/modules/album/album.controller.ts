@@ -73,6 +73,53 @@ const assignArtistToAlbum = catchAsync(async (req: Request, res, next) => {
   }
 })
 
-const AlbumController = { createAlbum, getAllAlbums, assignArtistToAlbum }
+// delete album
+const deleteAlbum = catchAsync(async (req, res, next) => {
+  try {
+    const { id }: any = req.params
+    const result: any = await AlbumService.deleteAlbumFromDB(id)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message: result.affectedRows
+        ? 'Album deleted successfully'
+        : 'Album not found',
+      data: {
+        data: result || null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+// update album
+const updateAlbum = catchAsync(async (req, res, next) => {
+  try {
+    const { id }: any = req.params
+    const result: any = await AlbumService.updateAlbumFromDB(id, req.body)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message: result.affectedRows
+        ? 'Album updated successfully'
+        : 'Album not found',
+      data: {
+        data: result || null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+const AlbumController = {
+  createAlbum,
+  getAllAlbums,
+  assignArtistToAlbum,
+  deleteAlbum,
+  updateAlbum,
+}
 
 export default AlbumController

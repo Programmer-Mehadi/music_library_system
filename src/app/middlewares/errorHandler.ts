@@ -24,6 +24,16 @@ const errorHandler = (
       errorType: 'ReferenceError',
     })
   }
+
+  //  reference  error
+  if (err?.code == 'ER_ROW_IS_REFERENCED_2') {
+    return res.status(404).json({
+      success: false,
+      message: `Albums cannot be deleted because ${err?.message?.split('REFERENCES')[1]?.split('`')[1]} has songs, artists with associated it`,
+      data: null,
+      errorType: 'ReferenceError',
+    })
+  }
   // custom error handling
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json({

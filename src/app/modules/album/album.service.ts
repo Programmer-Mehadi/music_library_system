@@ -54,10 +54,36 @@ const assignArtistToAlbum = async (albumId: number, artistId: number) => {
   return result
 }
 
+// delete album
+const deleteAlbumFromDB = (id: number) => {
+  const result = query({
+    sql: `DELETE FROM albums WHERE id = ${id}`,
+  })
+  return result
+}
+
+// update album
+const updateAlbumFromDB = (id: number, data: any) => {
+  const makeQuery = Object.keys(data)
+    .map((key: any) => {
+      return `${key} = '${data[key]}'`
+    })
+    .join(', ')
+  if (makeQuery === '') {
+    throw new Error('No data to update')
+  }
+  const result = query({
+    sql: `UPDATE albums SET ${makeQuery} WHERE id = ${id}`,
+  })
+  return result
+}
+
 const AlbumService = {
   createAlbumToDB,
   getAllAlbumsFromDB,
   assignArtistToAlbum,
+  deleteAlbumFromDB,
+  updateAlbumFromDB,
 }
 
 export default AlbumService

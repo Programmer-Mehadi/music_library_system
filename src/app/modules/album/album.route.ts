@@ -28,6 +28,22 @@ router.post(
   AlbumController.assignArtistToAlbum,
 )
 
+// delete album
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  validateRequest(AlbumValidation.deleteAlbumParamsSchema, { type: 'params' }),
+  AlbumController.deleteAlbum,
+)
+// update album
+router.patch(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  validateRequest(AlbumValidation.updateAlbumParamsSchema, { type: 'params' }),
+  validateRequest(AlbumValidation.updateAlbumBodySchema, { type: 'body' }),
+  AlbumController.updateAlbum,
+)
+
 const AlbumRoutes = router
 
 export default AlbumRoutes
