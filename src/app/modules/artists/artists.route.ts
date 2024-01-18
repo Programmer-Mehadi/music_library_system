@@ -27,6 +27,27 @@ router.get(
   ArtistsController.getSingleArtist,
 )
 
+// delete artists
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  validateRequest(ArtistsValidation.ArtistsDeleteParamsSchema, {
+    type: 'params',
+  }),
+  ArtistsController.deleteArtists,
+)
+
+// update artists
+router.patch(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  validateRequest(ArtistsValidation.ArtistsUpdateParamsSchema, {
+    type: 'params',
+  }),
+  validateRequest(ArtistsValidation.ArtistsUpdateBodySchema, { type: 'body' }),
+  ArtistsController.updateArtists,
+)
+
 const ArtistsRoutes = router
 
 export default ArtistsRoutes

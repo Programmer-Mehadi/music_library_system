@@ -19,7 +19,7 @@ const getAllArtistsFromDB = async () => {
 }
 
 // get single artist
-const getSingleArtistFromDB = async (id: string) => {
+const getSingleArtistFromDB = async (id: number) => {
   const result: any = await query({
     sql: `SELECT * FROM artists WHERE id = ${id}`,
   })
@@ -48,10 +48,36 @@ const getSingleArtistFromDB = async (id: string) => {
   return result
 }
 
+// delete artists
+const deleteArtistsFromDB = async (id: number) => {
+  const result: any = await query({
+    sql: `DELETE FROM artists WHERE id = ${id}`,
+  })
+  return result
+}
+
+// update artists
+const updateArtistsFromDB = (id: number, data: Partial<IARTIST>) => {
+  const makeQuery = Object.keys(data)
+    .map((key: string) => {
+      return `${key} = '${data[key as keyof IARTIST]}'`
+    })
+    .join(', ')
+  if (makeQuery === '') {
+    throw new Error('No data to update')
+  }
+  const result = query({
+    sql: `UPDATE artists SET ${makeQuery} WHERE id = ${id}`,
+  })
+  return result
+}
+
 const ArtistsService = {
   createArtistsToDB,
   getAllArtistsFromDB,
   getSingleArtistFromDB,
+  deleteArtistsFromDB,
+  updateArtistsFromDB,
 }
 
 export default ArtistsService

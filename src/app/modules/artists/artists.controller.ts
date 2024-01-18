@@ -39,7 +39,7 @@ const getAllArtists = catchAsync(async (req, res, next) => {
 // get single artist
 const getSingleArtist = catchAsync(async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { id }: any = req.params
     const result: any = await ArtistsService.getSingleArtistFromDB(id)
     sendResponse({
       res,
@@ -56,6 +56,59 @@ const getSingleArtist = catchAsync(async (req, res, next) => {
   }
 })
 
-const ArtistsController = { createArtists, getAllArtists, getSingleArtist }
+// delete artists
+
+const deleteArtists = catchAsync(async (req, res, next) => {
+  try {
+    const { id }: any = req.query
+    const result = await ArtistsService.deleteArtistsFromDB(id)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message:
+        result.affectedRows > 0
+          ? 'Artist deleted successfully'
+          : 'Artist not found',
+      data: {
+        data: result.affectedRows > 0 ? result : null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+// update artists
+
+const updateArtists = catchAsync(async (req, res, next) => {
+  try {
+    const { id }: any = req.params
+    const data: any = req.body
+    const result: any = await ArtistsService.updateArtistsFromDB(id, data)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message:
+        result.affectedRows > 0
+          ? 'Artist updated successfully'
+          : 'Artist not found',
+      data: {
+        data: result.affectedRows > 0 ? result : null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+const ArtistsController = {
+  createArtists,
+  getAllArtists,
+  getSingleArtist,
+  deleteArtists,
+  updateArtists,
+}
 
 export default ArtistsController
