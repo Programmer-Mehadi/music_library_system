@@ -33,9 +33,10 @@ const login = catchAsync(async (req, res, next) => {
       const token = jwtHelpers.createToken(
         {
           email: result.data.email,
+          role: result.data.role,
         },
         config.jwtSecret,
-        '2h',
+        '5d',
       )
       result.data.token = token
       sendResponse({

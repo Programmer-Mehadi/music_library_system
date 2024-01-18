@@ -1,3 +1,4 @@
+import auth from '@src/app/middlewares/auth'
 import validateRequest from '@src/app/middlewares/validateRequets'
 import UserController from '@src/app/modules/user/user.controller'
 import UserValidation from '@src/app/modules/user/user.validation'
@@ -22,7 +23,7 @@ routes.get(
 )
 
 // get all users
-routes.get('/', UserController.getAllUsers)
+routes.get('/', auth('admin', 'user'), UserController.getAllUsers)
 
 // delete user
 routes.delete(

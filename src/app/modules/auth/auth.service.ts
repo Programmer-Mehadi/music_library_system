@@ -7,7 +7,7 @@ const query = util.promisify(db.query).bind(db)
 
 const loginFromDB = async (data: IAUTH) => {
   const result: any = await query({
-    sql: `SELECT email, password FROM users WHERE email = '${data.email}'`,
+    sql: `SELECT email, password, role FROM users WHERE email = '${data.email}'`,
   })
   return {
     success: true,
