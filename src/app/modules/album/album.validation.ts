@@ -22,12 +22,18 @@ const updateAlbumBodySchema = Joi.object({
   release_year: Joi.date(),
   genre: Joi.string().min(3).max(120),
 })
+
+const getSingleAlbumParamsSchema = Joi.object({
+  id: Joi.number().required().min(1),
+})
+
 const AlbumValidation = {
   albumCreateBodySchema,
   artistsAssignAlbumBodySchema,
   deleteAlbumParamsSchema,
   updateAlbumBodySchema,
   updateAlbumParamsSchema,
+  getSingleAlbumParamsSchema,
 }
 
 export default AlbumValidation

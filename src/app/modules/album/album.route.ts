@@ -18,6 +18,15 @@ router.post(
 // get all album
 router.get('/', AlbumController.getAllAlbums)
 
+// get single album
+router.get(
+  '/:id',
+  validateRequest(AlbumValidation.getSingleAlbumParamsSchema, {
+    type: 'params',
+  }),
+  AlbumController.getSingleAlbum,
+)
+
 // assign album to the artist
 router.post(
   '/assign-artist',

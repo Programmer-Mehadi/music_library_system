@@ -41,6 +41,14 @@ const getAllAlbumsFromDB = async () => {
   return artists
 }
 
+// get signle album
+const getSingleAlbumFromDB = async (id: number) => {
+  const result: any = await query({
+    sql: `SELECT * FROM albums WHERE id = ${id}`,
+  })
+  return result
+}
+
 // assign artist to the album
 const assignArtistToAlbum = async (albumId: number, artistId: number) => {
   const sqlQuery = `SELECT * FROM albums_artists WHERE album_id = ${albumId} AND artist_id = ${artistId}`
@@ -84,6 +92,7 @@ const AlbumService = {
   assignArtistToAlbum,
   deleteAlbumFromDB,
   updateAlbumFromDB,
+  getSingleAlbumFromDB,
 }
 
 export default AlbumService

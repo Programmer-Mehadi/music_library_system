@@ -40,6 +40,27 @@ const getAllAlbums = catchAsync(async (req, res, next) => {
     next(err)
   }
 })
+
+// get single album
+const getSingleAlbum = catchAsync(async (req, res, next) => {
+  try {
+    const { id }: any = req.params
+    const result = await AlbumService.getSingleAlbumFromDB(id)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message:
+        result.length > 0 ? 'Album fetched successfully' : 'Album not found',
+      data: {
+        data: result.length > 0 ? result[0] : null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
 // assign artist to the album
 const assignArtistToAlbum = catchAsync(async (req: Request, res, next) => {
   try {
@@ -120,6 +141,7 @@ const AlbumController = {
   assignArtistToAlbum,
   deleteAlbum,
   updateAlbum,
+  getSingleAlbum,
 }
 
 export default AlbumController
