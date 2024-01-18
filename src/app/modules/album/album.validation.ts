@@ -27,6 +27,14 @@ const getSingleAlbumParamsSchema = Joi.object({
   id: Joi.number().required().min(1),
 })
 
+const assignUpdateAlbumBodySchema = Joi.object({
+  albumId: Joi.number().required().min(1),
+  artistId: Joi.number().required().min(1),
+})
+const assignUpdateAlbumParamsSchema = Joi.object({
+  id: Joi.number().required().min(1),
+})
+
 const AlbumValidation = {
   albumCreateBodySchema,
   artistsAssignAlbumBodySchema,
@@ -34,6 +42,8 @@ const AlbumValidation = {
   updateAlbumBodySchema,
   updateAlbumParamsSchema,
   getSingleAlbumParamsSchema,
+  assignUpdateAlbumBodySchema,
+  assignUpdateAlbumParamsSchema,
 }
 
 export default AlbumValidation

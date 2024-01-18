@@ -62,6 +62,26 @@ const assignArtistToAlbum = async (albumId: number, artistId: number) => {
   return result
 }
 
+// update assign album to the artist
+const updateAssignAlbumToDB = async (
+  id: number,
+  data: { albumId: number; artistId: number },
+) => {
+  const sqlQuery = `SELECT * FROM albums_artists WHERE album_id = ${data.albumId} AND artist_id = ${data.artistId} AND id != ${id}`
+  const findResult: any = await query({
+    sql: sqlQuery,
+  })
+  if (findResult.length > 0)
+    return {
+      affectedRows: 0,
+      found: true,
+    }
+  const result = await query({
+    sql: `UPDATE albums_artists SET album_id = ${data.albumId}, artist_id = ${data.artistId} WHERE id = ${id}`,
+  })
+  return result
+}
+
 // delete album
 const deleteAlbumFromDB = (id: number) => {
   const result = query({
@@ -93,6 +113,7 @@ const AlbumService = {
   deleteAlbumFromDB,
   updateAlbumFromDB,
   getSingleAlbumFromDB,
+  updateAssignAlbumToDB,
 }
 
 export default AlbumService

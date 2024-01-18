@@ -94,6 +94,31 @@ const assignArtistToAlbum = catchAsync(async (req: Request, res, next) => {
   }
 })
 
+// update assign album to the artist
+const updateAssignAlbum = catchAsync(async (req: Request, res, next) => {
+  try {
+    const data = { albumId: req.body.albumId, artistId: req.body.artistId }
+    const { id }: any = req.params
+    const result: any = await AlbumService.updateAssignAlbumToDB(id, data)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message:
+        result.affectedRows > 0
+          ? 'Artist assigned successfully'
+          : result.found === true
+            ? 'Artist already assigned'
+            : 'Artist can not assigned',
+      data: {
+        data: result.affectedRows > 0 ? result : null,
+      },
+      code: 200,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
 // delete album
 const deleteAlbum = catchAsync(async (req, res, next) => {
   try {
@@ -142,6 +167,7 @@ const AlbumController = {
   deleteAlbum,
   updateAlbum,
   getSingleAlbum,
+  updateAssignAlbum,
 }
 
 export default AlbumController

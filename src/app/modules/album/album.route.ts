@@ -37,6 +37,19 @@ router.post(
   AlbumController.assignArtistToAlbum,
 )
 
+// update assign album to the artist
+router.patch(
+  '/assign-artist/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  validateRequest(AlbumValidation.assignUpdateAlbumParamsSchema, {
+    type: 'params',
+  }),
+  validateRequest(AlbumValidation.assignUpdateAlbumBodySchema, {
+    type: 'body',
+  }),
+  AlbumController.updateAssignAlbum,
+)
+
 // delete album
 router.delete(
   '/:id',
