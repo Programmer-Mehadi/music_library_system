@@ -117,7 +117,7 @@ const getSongsByAlbum = catchAsync(async (req, res, next) => {
       message:
         result.length > 0 ? 'Get songs by album successfully' : 'No song found',
       data: {
-        data: result.length > 0 ? result : null,
+        data: result.length > 0 ? result[0] : null,
       },
       code: 200,
     })
@@ -139,7 +139,7 @@ const getSongsByArtists = catchAsync(async (req, res, next) => {
           ? 'Get songs by artists successfully'
           : 'No song found',
       data: {
-        data: result.length > 0 ? result : null,
+        data: result.length > 0 ? result[0] : null,
       },
       code: 200,
     })

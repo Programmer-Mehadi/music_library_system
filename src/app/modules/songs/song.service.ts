@@ -75,18 +75,43 @@ const getSingleSongFromDB = async (id: number) => {
 
 // get song by album
 const getSongsByAlbumFromDB = async (albumId: number) => {
-  const result: any = await query({
-    sql: `SELECT * FROM songs WHERE album_id = ${albumId}`,
+  const album: any = await query({
+    sql: `SELECT * FROM albums WHERE id = ${albumId}`,
   })
-  return result
+
+  if (album.length === 0) {
+    return []
+  } else {
+    const result: any = await query({
+      sql: `SELECT * FROM songs WHERE album_id = ${albumId}`,
+    })
+    return [
+      {
+        ...album[0],
+        songs: result,
+      },
+    ]
+  }
 }
 
 // get song by artists
 const getSongsByArtistsFromDB = async (artistId: number) => {
+  const artist: any = await query({
+    sql: `SELECT * FROM artists WHERE id = ${artistId}`,
+  })
+
+  if (artist.length === 0) {
+    return []
+  }
   const result: any = await query({
     sql: `SELECT * FROM songs WHERE album_id IN (SELECT album_id FROM albums_artists WHERE artist_id = ${artistId})`,
   })
-  return result
+  return [
+    {
+      ...artist[0],
+      songs: result,
+    },
+  ]
 }
 
 const SongService = {
