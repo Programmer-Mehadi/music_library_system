@@ -15,7 +15,7 @@ const auth =
           new CustomError('Token not found', 400, null, 'validationError'),
         )
       }
-      const token = req.headers.authorization
+      const token = req.headers.authorization.split(' ')[1]
       // verify token by jwt
       const verify: JwtPayload | any = await jwt.verify(token, config.jwtSecret)
       if (verify) {

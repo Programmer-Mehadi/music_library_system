@@ -1,8 +1,10 @@
 import errorHandler from '@src/app/middlewares/errorHandler'
 import routes from '@src/app/routes/routes'
 import express, { Request, Response } from 'express'
+import cors from 'cors'
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
