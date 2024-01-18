@@ -33,6 +33,12 @@ routes.delete(
   UserController.deleteUser,
 )
 
+// edit user
+routes.patch(
+  '/:id',
+  validateRequest(UserValidation.userEditBodySchema, { type: 'body' }),
+  UserController.editUser,
+)
 const UserRoutes = routes
 
 export default UserRoutes

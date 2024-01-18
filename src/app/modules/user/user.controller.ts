@@ -6,6 +6,7 @@ import sendResponse from '@src/shared/sendResponse'
 import DuplicateError from '@src/errors/DuplicateError'
 import CustomError from '@src/errors/CustomError'
 import passwordBcrypt from '@src/helpers/passwordBcrypt'
+import { Request } from 'express'
 
 // create user
 const createUser = catchAsync(async (req, res, next) => {
@@ -100,6 +101,31 @@ const deleteUser = catchAsync(async (req, res, next) => {
   })
 })
 
-const UserController = { createUser, getAllUsers, getSingleUser, deleteUser }
+// edit user
+const editUser = catchAsync(async (req: Request, res, next) => {
+  try {
+    const { id }: any = req.params
+    const result = await UserService.editUserFromDB(id, req.body)
+    sendResponse({
+      res,
+      success: result ? true : false,
+      message: result ? 'User updated successfully' : 'User not found',
+      data: {
+        data: result || null,
+      },
+      code: 200,
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
+const UserController = {
+  createUser,
+  getAllUsers,
+  getSingleUser,
+  deleteUser,
+  editUser,
+}
 
 export default UserController

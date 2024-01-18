@@ -53,9 +53,10 @@ const errorHandler = (
   // MySQL duplicate entry error handle
   if (err?.code === 'ER_DUP_ENTRY') {
     // Assuming you have a specific MySQL error code for duplicate entry
+    console.log(err)
     return res.status(400).json({
       success: false,
-      error: `Duplicate entry for key "${err.index}"`,
+      error: `Duplicate entry for key "${err?.sqlMessage}"`,
       data: err.values,
     })
   }

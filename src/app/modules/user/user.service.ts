@@ -63,7 +63,6 @@ const getSingleUserFromDB = async (id: string) => {
 }
 
 // delete user
-
 const deleteUserFromDB = async (id: string) => {
   const result: any = await query({
     sql: `DELETE FROM users WHERE id = ${id}`,
@@ -77,11 +76,33 @@ const deleteUserFromDB = async (id: string) => {
   }
 }
 
+// edit user
+const editUserFromDB = (id: number, user: Partial<IUSER>) => {
+  let queryBuilder = ``
+  const keys = Object.keys(user)
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    const value = user[key as keyof IUSER]
+    queryBuilder += `${key} = '${value}'`
+    if (i !== keys.length - 1) {
+      queryBuilder += ', '
+    }
+  }
+  if (queryBuilder === '') {
+    throw new Error('No data to update')
+  } else {
+    const result = query({
+      sql: `UPDATE users SET ${queryBuilder} WHERE id = ${id}`,
+    })
+    return result
+  }
+}
 const UserService = {
   createUserToDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
   deleteUserFromDB,
+  editUserFromDB,
 }
 
 export default UserService
