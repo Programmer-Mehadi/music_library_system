@@ -15,7 +15,7 @@
 
 <span>URL: `http://localhost:5500/api/v1`</span>
 
-🔔 All `POST` `PATCH` `PUT` `DELETE` methos are need `authenticated`
+🔔 All `POST` `PATCH` `PUT` `DELETE` methos are need `authenticated user`
 
 <h4>User</h4>
 
@@ -28,7 +28,7 @@
 <h4>Artists</h4>
 
 - (POST) (authenticated) `/artist/` => for create a new artist
-- (GET) `/artist/` => for get all artists
+- (GET) `/artist/?name="atif aslam"` => for get all artists
 - (GET) `/artist/:id` => for get a artist
 - (PATCH) (authenticated) `/artist/:id` => for update a artist
 - (DELETE) (authenticated) `/artist/:id` => for delete a artist
